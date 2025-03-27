@@ -24,6 +24,8 @@ process imprimiendo[id = 0..N-1]{ // id es el identificador de la persona
 	}	
 }
 
+
+//
 //Alternativa? no es necesario simular la peticion de recursos y devolucion de los mismos, ya que la impresora es un recurso compartido ?
 process persona[id: 0..N-1] {
     Documento documento;
