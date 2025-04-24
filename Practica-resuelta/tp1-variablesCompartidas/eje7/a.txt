@@ -1,0 +1,7 @@
+SC (sección crítica) = parte del código que accede a recursos compartidos
+
+SNC (sección no crítica) = parte del código que no accede a recursos compartidos
+
+
+los 4 bien
+Exclusión mutua, Ausencia de deadlock, Asuencia de demora inncesaria, 
