@@ -67,7 +67,7 @@ Monitor Impresora{
 }
 
 process Persona[id: 0..N-1]{
-	Impresora.usarImpresora(); // el lector entra a la base de datos
+	Impresora.usarImpresora(); // el lector
 	Impresora.salir();
 }
 

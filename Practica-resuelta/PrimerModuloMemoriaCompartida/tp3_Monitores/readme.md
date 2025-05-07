@@ -15,3 +15,9 @@ logica de parametros
 parametros(id : in int, saludo: out string){
 	saludo = saludoParaElId(id);
 }
+
+
+//llamada de un prodimiento a otro procedimiento de otro monitor donde otroMonitorProcedimiento tiene un wait,
+// 90% de chances de parar todo y que quede bloqueado
+
+"Se puede llamar a otro monitor mientras no estés dormido en el actual, y mientras la llamada al otro monitor no duerma ni dependa de condiciones internas."
