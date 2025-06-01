@@ -89,3 +89,65 @@ El  empleado  debe  atender  los  pedidos  de  C  clientes,  de  acuerdo  con  e
 cliente  envía  las  indicaciones,  y  el  empleado  en  base  a  eso  diseña  la  tarjeta  y  se  la  envía  al  cliente.  Notas: 
 maximizar la concurrencia; existe una función HacerTarjeta(indicaciones) que simula el armado de la tarjeta por 
 parte del empleado; todos los procesos deben terminar su ejecución.
+
+Monitor Pedido{
+	Queue pedido[C];
+	Queue filaTomaPedidoCliente;
+
+	cond empleado;
+
+	procedure realizarPedido(id in int, indicacion in Indicacion){
+		filaTomaPedidoCliente.push(id);
+		pedido[id] = indicacion;
+		signal(empleado);
+	}
+
+	procedure tomarPedido(siguienteId : out int ,indicacion out Indicacion){
+		if(filaTomaPedidoCliente.isEmpty()){
+			wait(empleado);
+		}
+		int siguienteId = filaTomaPedidoCliente.pop();
+		indicacion = pedido[siguienteId];
+	}
+
+}
+
+Monitor EsperarPedido{
+	cond cliente[C];
+	//Tarjeta tarjeta;
+
+	Tarjeta tarjetas[C] = ([C, null]);
+
+	procedure esperandoTarjeta(id : in int,tarjetaO out Tarjeta){
+		if(tarjetas[id] == null){
+			wait(cliente[id]);
+		}
+		tarjetaO = tarjetas[id];
+	}
+
+	procedure entregarTarjeta(idO : in int, tarjeta : in Tarjeta){
+		tarjetas[idO] = tarjeta;
+		signal(cliente[idO]); //si estaba esperando le aviso
+	}
+}
+
+Process Cliente[id: 0..C]{
+	Indicacion indicacion;
+	Tarjeta tarjetaO;
+	Pedido.realizarPedido(id, indicacion);
+	EspererandoPedido.esperandoTarjeta(id,tarjetaO);
+	//mirandoTarjeta
+}
+
+Process Empleado{
+	int cant = 0;
+	int idO;
+	while (cant < C){
+		cant++;
+		Indicacion indicacion;
+		Pedido.tomarPedido(idO,indicacion);
+		Tarjeta tarjeta = hacerTarjeta(indicacion); //funcion interna (Se dispone)
+		EsperarPedido.entregarTarjeta(idO, tarjeta);
+
+	}
+}	
