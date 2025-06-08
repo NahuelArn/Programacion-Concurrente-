@@ -1,0 +1,22 @@
+
+en el eje5,4 aparece esta duda
+
+en el eje4: implemento barrido completo
+en el eje5: solo 1 barrido parcial, un pasa manos
+
+
+
+
+
+"pero  siempre  dando  prioridad  a  los  pedidos 
+del  director."
+
+Cuando me dice "dando prioridad" tendria que antes de desarrollar la logica resolver de una todos los pedidos del director?
+o con atender solo 1, estaria bien?... Desarrollarlo en rafagas de 1? o rafagas en barrido de todos los pedidos del director y despues sigo
+
+
+
+//conclusionFinal
+(al final termina siendo lo mismo, mirar el eje5, de cierta forma se termina formando el barrido completo, de forma natural, agota todos los pedidos del director)
+"en el eje4, implemente, lo que pasa por debajo, cuando aparece un proceso de mayor prioridad... es lo que hace el eje5 con su prioridad"
+"el while del eje4 de prioridad lo podria haber resuelto con un if/else como en el 5"

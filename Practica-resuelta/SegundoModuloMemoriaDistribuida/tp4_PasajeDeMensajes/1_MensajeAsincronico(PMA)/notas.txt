@@ -1,0 +1,12 @@
+Se podria decir que todo lo que necesitemos como variable global lo vamos a transformar un canal 
+"los canales no son variables globales"
+
+No existen las variables globales... boolean hola = true; no existe, a lo sumo chan hola(boolean); 
+
+
+- Al hacer un send es "no bloqueante" N procesos podrian hacer send al mismo tiempo, la estructura perse "canal" 
+ya sabe manejar la proteccion paralela
+
+
+- "no bloquante" //no duerme al proceso
+- "bloqueante" // duerme al proceso
