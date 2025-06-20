@@ -68,15 +68,15 @@ Process Coordinador(){
 	
 }
 
-//expl
-// process coordinador{                            //EXPLICACION DEL USO DEL COORD: el proceso coordinador hace de pasamanos y regula el comportamiento de los vendedores, esto pasa por que 
-// 	while(true){                                //los vendedores no pueden evaluar de forma correcta que un canal sea empty, ya que puede pasar, que 2 procesos pregunten por
-// 			receive vendedorLibre(idVend);          //un canal que no sea vacio en un if(lo cual es verdad) y al entrar haber un mensaje solo pudiendo suceder que uno de los dos procesos lo   
-// 			if (pedido.empty()){                    //toma y el otro se queda esperando en el receive. Este 2do proceso no hace el delay al quedarse trabado, pero si ademas nunca llegase
-// 					id=-1;                              //otro mensaje el proceso nunca finalizaria. 
-// 			}else{
-// 					receive pedido(id,pedido);
-// 			}
-// 			send vendedor(id,pedido);
-// 	}   
-// }
+expl
+process coordinador{                            //EXPLICACION DEL USO DEL COORD: el proceso coordinador hace de pasamanos y regula el comportamiento de los vendedores, esto pasa por que 
+	while(true){                                //los vendedores no pueden evaluar de forma correcta que un canal sea empty, ya que puede pasar, que 2 procesos pregunten por
+			receive vendedorLibre(idVend);          //un canal que no sea vacio en un if(lo cual es verdad) y al entrar haber un mensaje solo pudiendo suceder que uno de los dos procesos lo   
+			if (pedido.empty()){                    //toma y el otro se queda esperando en el receive. Este 2do proceso no hace el delay al quedarse trabado, pero si ademas nunca llegase
+					id=-1;                              //otro mensaje el proceso nunca finalizaria. 
+			}else{
+					receive pedido(id,pedido);
+			}
+			send vendedor(id,pedido);
+	}   
+}

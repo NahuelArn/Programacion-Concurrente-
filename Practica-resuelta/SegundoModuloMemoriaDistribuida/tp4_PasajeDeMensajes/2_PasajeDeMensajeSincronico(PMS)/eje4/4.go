@@ -48,7 +48,7 @@ Process Administrador(){
 	Queue personas; int idP;
 	int cantP=0;
 	do
-		[] (cantP<P); Persona[*[?solicitarUso(idP) ->
+		[] (cantP<P); Persona[*]?solicitarUso(idP) ->
 			cantP++;
 			personas.push(idP);
 		[] (!personas.isEmpty()); Empleado?estoyLibre() ->

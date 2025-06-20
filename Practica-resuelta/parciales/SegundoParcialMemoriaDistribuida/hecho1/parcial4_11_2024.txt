@@ -1,0 +1,155 @@
+PMA
+1) Las unidades postales (UP) son sucursales de correo que se ocupan habitualmente de recibir y entregar paquetes. En
+particular, la UP 16 sólo se ocupa de entregar paquetes a las personas que se presentan a retirarlos. Los clientes son
+atendidos por orden de llegada por el primer empleado que se encuentre libre. Al solicitar atención, el cliente le
+muestra un código QR al empleado que lo atiende, el cual le entrega el paquete como respuesta. Implemente un
+programa que permita modelar el funcionamiento de la UP 16 usando PMA, asumiendo que hay N clientes que retiran
+un único paquete y 3 empleados para atenderlos. Además, asuma que no habrá códigos QR erróneos ni paquetes
+faltantes. Notas: la función obtenerQR(idCliente) retorna el código QR asociado al identificador de cliente recibido como
+entrada. De forma similar, obtenerPaquete(qr) retorna el paquete asociado al QR recibido como entrada.
+
+"SARASA SARASA, LAS 2 SOLUCIONES ESTA BIEN... PERO ESTA TIENE LOGICA INNECESARIA... EL EJERCICIO NO ME PEDIA QUE DEBIA TERMINAR"
+
+"Esto es un error de finalización. El modelo no se detiene correctamente, lo cual no es aceptable en PMA (salvo que se justifique que los procesos viven para siempre, lo cual acá no aplica)."
+"Si te daria a entender que los clientes nunca paran de retirar paquetes, para mi la solucion de la catedra seria la mejor.. pero como "cada cliente retira un solo paquete".. en la version de la nunca finalizaria, los empleados quedan colgados en el receive despues que pasaron los N empleado"
+"y como no van a llegar mas Personas, eso seria un error"
+
+
+CONTEXTO{Persona, Empleado}
+
+chan fila(int, String);
+chan empleadosLibres(int); 
+
+chan laburo[int](int,String);
+chan darPaquete[int](Paquete);
+
+Process Persona(id: 1..N){  
+  String qr = obtenerQr(id);
+  send fila(id,qr);
+  Paquete paquete;
+  receive darPaquete[id](paquete);
+}
+
+Process Empleado(id: 1..3){
+  String qr = "asda"; idP: int;
+  while(qr != "termino"){
+    send empleadosLibres(id);
+    receive laburo[id](idP,qr);
+    if(qr != "termino"){
+      Paquete paquete = obtenerPaquete(qr);
+      send darPaquete[idP](paquete);
+    }
+  }
+}
+
+Process Coordinador{
+  int cantAtenciones = 0; int idE, idP; String qr
+  while(cantAtenciones < N){
+    receive empleadosLibres(idE);
+    receive fila(idP, qr);
+    send laburo[idE](idP,qr);
+    cantAtenciones++;
+  }
+  for (int i = 1; i<=3; i++){ //con esto aviso que termine... En la solucion de la catedra, mandan todo de una.. pero como te dice que las Personas retiran un solo paquete.. los Empleado quedarian colgados.. 
+    receive empleadosLibres(idE);
+    send laburo[iDe](0, "termino"); //aca el send no es bloqueante
+  }
+}
+
+
+PMS
+2) Resuelva el mismo problema anterior pero ahora usando PMS.
+
+Process Administrador(){
+  idE, idP int; String qr;
+  Queue filaPersona;
+  cantP = 0; cantA =0;
+  do
+    [] (cantP < N); Persona[*]?fila(idP,qr) ->
+      fila.push(idP,qr);
+      cantP++;
+    [] (!filaPersona.isEmpty()); Empleado[*]?estoyLibre(idE) ->
+      Empleado[idE]!laburo(filaPersona.pop());
+  od
+  for (int i = 1; i<=3; i++){
+    Empleado[*]?estoyLibre(idE); //aca al escuchar cualquiera.. me aseguro que voy a recibir el que esta libre 
+    Empleado[idE]!laburo(0,"fin")
+  }
+}
+
+Process Persona(id: 1..N){
+  Paquete paquete;
+  String qr = obtenerQr(id);
+  Administrador!fila(id, qr);
+  Empleado?darPaquete(paquete);
+}
+
+Process Empleado(id: 1..3){
+  idP: int; String qr = "sadsad";
+  while(qr != "fin"){
+    Administrador!estoyLibre(id);
+    Administrado?laburo(idP,qr);
+    if(qr != fin){
+      Paquete paquete = obtenerPaquete(qr);
+      Persona[idP]!darPaquete(paquete);
+    }
+  }
+}
+
+
+
+ADA
+3) El problema WordCount consiste en calcular la cantidad de veces que aparece una palabra determinada en una
+porción, documento o archivo de texto. Implemente una solución a WordCount en ADA, considerando que se cuenta con
+una base de datos de texto distribuida en N partes. Además, existe un administrador que determina la palabra que se
+desea buscar y se la envía a las N tareas contadoras para que la busquen en la parte de la base de texto que poseen.
+Finalmente, el administrador calcula la cantidad total de apariciones. Notas: las tareas contadoras cuentan con la
+función contarPalabras(pal), la cual retorna la cantidad de veces que aparece la palabra pal en su parte de la base de
+datos. El administrador cuenta con la función obtenerPalabra() que retorna la palabra a buscar. El problema se resuelve
+una única vez y su solución debe maximizar la concurrencia.
+
+Contexto{Contador, Administrador}
+
+Procedure WordCount is
+
+Task Admnistrador is
+  Entry pedirPalabra(palabra: out String);
+  Entry cuenta(sumarda: in real);
+end Administrador;
+
+Task body Administrado is
+  palabraAbuscar : String;
+  total : real;
+begin
+  palabraAbuscar = obtenerPalabra();
+  total = 0;
+  for i in N*2 loop
+    select 
+      Accept pedirPalabra(x: out String) do
+        x= palabraAbuscar;
+      end pedirPalabra;
+    OR
+      Accept cuenta(sumarda: in Real)do
+        total = total +sumarda;
+      end cuenta;
+    end select;
+  end loop;
+  loop
+End Administrador;
+
+veContador: array(1..N) of Contador;
+
+Task type Contador;
+
+Task body Contador is
+  x: String;
+  cantidadIndividual : real;
+begin
+  Administrador.pedirPalabra(x);
+  cantidadIndividual = contarPalabras(x);
+  Administrador.cuenta(cantidadIndividual);
+end;
+
+begin
+  null;
+end;

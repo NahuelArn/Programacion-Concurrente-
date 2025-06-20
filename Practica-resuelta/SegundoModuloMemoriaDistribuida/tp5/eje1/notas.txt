@@ -1,0 +1,4 @@
+Prestar atencion al do dentro de un acept (dentro del cuerpo)... te duerme el proceso
+
+
+Si anhado prioridad y tengo 2 Acept que llegara tener igual prioridad.. no es deterministico al que elige Ada 

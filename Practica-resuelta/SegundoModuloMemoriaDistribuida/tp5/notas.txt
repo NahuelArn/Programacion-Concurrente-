@@ -1,0 +1,32 @@
+Para cada eje
+Aprovechar la comunicacion bidireccional que proporcina Ada (no siempre se puede)
+
+-Cada task tiene implicitamente una Queue integrada cuando se hace comunicacion bidireccional
+"Los entry call a un entry se almacenan en la cola implicita del mismo de acuerdo al orden de llegada"
+
+
+- or delay mide en segundos 600 son 10 minutos
+
+
+- Accept recibirSuma(suma: in int)do //el que recibe especifica si es IN/OUT los parametros  && el que recibe no es necesario declarar el parametro
+
+-{
+  Task Admin; //es para un solo proceso
+  Task type worker; //es cuando tengo varios procesos del mismo tipo
+
+  Accept recibirSuma(suma: in int)do //el que recibe especifica si es IN/OUT los parametros  && el que recibe no es necesario declarar el parametro
+    sumaDeTodos+= suma;
+  end recibirSuma;
+
+}
+
+-   Entry atenderPeticionPersona; //el when'count=0... solo se puede hacer si el Entry pertenece al proceso.. Ejemplo aca "atenderPeticionPersona" es propiedad/Entry de Medico... si fuera de otro proceso no puedo consultar dentro del body por ese atributo count 
+
+
+- Solo se puede usar 1 select... no se puede anidar selects para la catedra (creo)
+
+
+- es Integer no int y el incremento es hola:= hola+1; NO hola++; ni hola+=1;
+
+- el proceso que declara entrys.. solo puede hacer accepts
+- hay barrera
